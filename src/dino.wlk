@@ -114,6 +114,7 @@ object suelo{
 
 object dino {
 	var vivo = true
+	var aire = false
 
 	var position = game.at(1,suelo.position().y())
 	
@@ -121,8 +122,13 @@ object dino {
 	method position() = position
 	
 	method saltar(){
-		self.subir()
-		game.schedule(650, {self.bajar()})
+		if(!aire){
+			self.subir()
+			aire = !aire
+			game.schedule(650, {self.bajar()aire = !aire})
+			
+		}
+		 
 	}
 	
 	method subir(){
