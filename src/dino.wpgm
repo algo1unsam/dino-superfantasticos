@@ -1,4 +1,4 @@
-import wollok.game.*
+ import wollok.game.*
 import dino.* 
 
 program dinosaurio {

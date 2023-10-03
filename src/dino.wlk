@@ -9,9 +9,12 @@ object juego{
 		game.height(8)
 		game.title("Dino Game")
 		game.addVisual(suelo)
-		game.addVisual(cactus)
+		game.addVisual(orjeto)
+		//game.schedule(2500, {game.addVisual(orjeto0)})
+		//game.schedule(5100, {game.addVisual(orjeto1)})
 		game.addVisual(dino)
 		game.addVisual(reloj)
+		
 	
 		keyboard.space().onPressDo{ self.jugar()}
 		
@@ -22,7 +25,7 @@ object juego{
 	method iniciar(){
 		dino.iniciar()
 		reloj.iniciar()
-		cactus.iniciar()
+		orjeto.iniciar()
 	}
 	
 	method jugar(){
@@ -37,7 +40,7 @@ object juego{
 	
 	method terminar(){
 		game.addVisual(gameOver)
-		cactus.detener()
+		orjeto.detener()
 		reloj.detener()
 		dino.morir()
 	}
@@ -59,18 +62,18 @@ object reloj {
 	method position() = game.at(1, game.height()-1)
 	
 	method pasarTiempo() {
-		//COMPLETAR
+		tiempo++
 	}
 	method iniciar(){
 		tiempo = 0
 		game.onTick(100,"tiempo",{self.pasarTiempo()})
 	}
 	method detener(){
-		//COMPLETAR
+		game.removeTickEvent("tiempo")
 	}
 }
 
-object cactus {
+class Cactus {
 	 
 	var position = self.posicionInicial()
 
@@ -85,16 +88,19 @@ object cactus {
 	}
 	
 	method mover(){
-		//COMPLETAR
+		position = position.left(1)
 	}
 	
 	method chocar(){
-		//COMPLETAR
+		dino.morir()
 	}
     method detener(){
-		//COMPLETAR
+		game.removeTickEvent("moverCactus")
 	}
 }
+const orjeto = new Cactus()
+const orjeto0 = new Cactus()
+const orjeto1 = new Cactus()
 
 object suelo{
 	
@@ -113,7 +119,8 @@ object dino {
 	method position() = position
 	
 	method saltar(){
-		//COMPLETAR
+		self.subir()
+		game.schedule(650, {self.bajar()})
 	}
 	
 	method subir(){
