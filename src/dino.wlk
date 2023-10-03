@@ -10,8 +10,6 @@ object juego{
 		game.title("Dino Game")
 		game.addVisual(suelo)
 		game.addVisual(orjeto)
-		//game.schedule(2500, {game.addVisual(orjeto0)})
-		//game.schedule(5100, {game.addVisual(orjeto1)})
 		game.addVisual(dino)
 		game.addVisual(reloj)
 		
@@ -56,7 +54,7 @@ object gameOver {
 
 object reloj {
 	
-	var tiempo = 0
+	var property tiempo = 0
 	
 	method text() = tiempo.toString()
 	method position() = game.at(1, game.height()-1)
@@ -76,6 +74,7 @@ object reloj {
 class Cactus {
 	 
 	var position = self.posicionInicial()
+	var num=0.01
 
 	method image() = "cactus.png"
 	method position() = position
@@ -85,10 +84,13 @@ class Cactus {
 	method iniciar(){
 		position = self.posicionInicial()
 		game.onTick(velocidad,"moverCactus",{self.mover()})
+		game.onTick((velocidad*14+(reloj.tiempo()*num)),"removerCactus",{self.remover()})
 	}
-	
 	method mover(){
 		position = position.left(1)
+	}
+	method remover(){
+		position = game.at(game.width()-1,suelo.position().y())
 	}
 	
 	method chocar(){
@@ -96,11 +98,11 @@ class Cactus {
 	}
     method detener(){
 		game.removeTickEvent("moverCactus")
+		game.removeTickEvent("removerCactus")
 	}
 }
 const orjeto = new Cactus()
-const orjeto0 = new Cactus()
-const orjeto1 = new Cactus()
+
 
 object suelo{
 	
